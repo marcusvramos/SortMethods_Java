@@ -429,4 +429,128 @@ public class Arquivo {
         arquivoAux.fechar();
     }
 
+    // bucket sort
+
+    // radix sort
+    public void radixSort() {
+        int maior = getMaiorValor();
+        for(int i = 1; maior/i > 0; i*=10){
+            countingWithRadix(i);
+        }
+    }
+
+    public void countingWithRadix(int exp) {
+        int n = filesize();
+        int[] count = new int[10]; // 0...9
+
+        // Contar as ocorrências com cada casa decimal
+        for(int i = 0; i < n; i++) {
+            seekArq(i);
+            Registro reg = new Registro();
+            reg.leDoArq(arquivo);
+            count[(reg.getCodigo() / exp) % 10]++;
+        }
+
+        // Posições cumulativas
+        for(int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+
+        // Criar arquivo auxiliar e ordenar
+        Arquivo arquivoAux = new Arquivo("arqAux");
+        Registro auxReg = new Registro();
+        for(int i = n - 1; i >= 0; i--) {
+            mov++;
+            seekArq(i);
+            auxReg.leDoArq(arquivo);
+            arquivoAux.seekArq((count[(auxReg.getCodigo() / exp) % 10] - 1));
+            auxReg.gravaNoArq(arquivoAux.arquivo);
+            count[(auxReg.getCodigo() / exp) % 10]--;
+        }
+
+        // Copiar arquivo auxiliar de volta para o original
+        for(int i = 0; i < n; i++) {
+            mov++;
+            arquivoAux.seekArq(i);
+            auxReg.leDoArq(arquivoAux.arquivo);
+            seekArq(i);
+            auxReg.gravaNoArq(arquivo);
+        }
+    }
+
+    // comb
+    public void combSort() {
+        int gap = (int) (filesize() / 1.3);
+        int posAtual;
+
+        while(gap > 0) {
+           posAtual = 0;
+           while((posAtual + gap) < filesize()) {
+              seekArq(posAtual);
+              Registro regAtual = new Registro();
+              regAtual.leDoArq(arquivo);
+
+              seekArq(posAtual + gap);
+              Registro regGap = new Registro();
+              regGap.leDoArq(arquivo);
+
+              comp++;
+              if(regAtual.getCodigo() > regGap.getCodigo()) {
+                  mov+=2;
+                  seekArq(posAtual);
+                  regGap.gravaNoArq(arquivo);
+                  seekArq(posAtual + gap);
+                  regAtual.gravaNoArq(arquivo);
+              }
+              posAtual++;
+           }
+           gap = (int) (gap / 1.3);
+        }
+    }
+
+    // gnome
+    public void gnomeSort() {
+        int currentPos = 0;
+        int n = filesize();
+        Registro regAtual = new Registro();
+        Registro regAnterior = new Registro();
+
+        while(currentPos < n) {
+            if (currentPos == 0) {
+                currentPos++;
+            }
+            seekArq(currentPos);
+            regAtual.leDoArq(arquivo);
+
+            seekArq(currentPos-1);
+            regAnterior.leDoArq(arquivo);
+
+            comp++;
+            if(regAtual.getCodigo() >= regAnterior.getCodigo()) {
+                currentPos++;
+            } else {
+                mov+=2;
+                seekArq(currentPos);
+                regAnterior.gravaNoArq(arquivo);
+                seekArq(currentPos-1);
+                regAtual.gravaNoArq(arquivo);
+                currentPos--;
+            }
+        }
+    }
+
+    // tim sort
+
+    private int getMaiorValor() {
+        int maior = 0;
+        for(int i = 0; i < filesize(); i++) {
+            seekArq(i);
+            Registro reg = new Registro();
+            reg.leDoArq(arquivo);
+            comp++;
+            if(reg.getCodigo() > maior) maior = reg.getCodigo();
+        }
+        return maior;
+    }
+
 }

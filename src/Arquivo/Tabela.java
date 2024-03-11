@@ -170,10 +170,52 @@ public class Tabela {
         // Bucket
 
         // Radix
+        realizarOrdenacaoEAdicionarNaTabela(
+            gravarArq,
+            "Radix Sort",
+            arqOrd,
+            arqRev,
+            arqRand,
+            Arquivo::radixSort,
+            this::noComp,
+            this::noComp,
+            this::noComp,
+            this::noMov,
+            this::noMov,
+            this::noMov
+        );
 
         // Comb
+        realizarOrdenacaoEAdicionarNaTabela(
+            gravarArq,
+            "Comb Sort",
+            arqOrd,
+            arqRev,
+            arqRand,
+            Arquivo::combSort,
+            this::noComp,
+            this::noComp,
+            this::noComp,
+            this::noMov,
+            this::noMov,
+            this::noMov
+        );
 
         // Gnome
+        realizarOrdenacaoEAdicionarNaTabela(
+            gravarArq,
+            "Gnome Sort",
+            arqOrd,
+            arqRev,
+            arqRand,
+            Arquivo::gnomeSort,
+            this::noComp,
+            this::noComp,
+            this::noComp,
+            this::noMov,
+            this::noMov,
+            this::noMov
+        );
 
         // Tim
 
