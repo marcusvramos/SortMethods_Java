@@ -111,47 +111,30 @@ public class Vetor {
     }
 
     public void heapSort() {
-        int n = TL;
+        int n = TL, FE, FD, aux;
+        while (n > 1) {
+            for(int pai = n / 2 - 1; pai >= 0; pai--) {
+                FE = 2 * pai + 1;
+                FD = 2 * pai + 2;
+                int posMaior = FE;
+                if(FD < n && vet[FD] > vet[FE]) {
+                    posMaior = FD;
+                }
 
-        for (int i = n / 2 - 1; i >= 0; i--) {
-            heapifyIterativo(n, i);
-        }
-
-        for (int j = n - 1; j > 0; j--) {
-            int temp = vet[0];
-            vet[0] = vet[j];
-            vet[j] = temp;
-            heapifyIterativo(j, 0);
-        }
-    }
-
-    private void heapifyIterativo(int n, int i) {
-        Stack<Integer> stack = new Stack<>();
-        stack.push(i);
-
-        while (!stack.isEmpty()) {
-            int current = stack.pop();
-            int maior = current;
-            int esq = 2 * current + 1;
-            int dir = 2 * current + 2;
-
-            if (esq < n && vet[esq] > vet[maior]) {
-                maior = esq;
+                if (vet[posMaior] > vet[pai]) {
+                    aux = vet[pai];
+                    vet[pai] = vet[posMaior];
+                    vet[posMaior] = aux;
+                }
             }
 
-            if (dir < n && vet[dir] > vet[maior]) {
-                maior = dir;
-            }
-
-            if (maior != current) {
-                int temp = vet[current];
-                vet[current] = vet[maior];
-                vet[maior] = temp;
-
-                stack.push(maior);
-            }
+            aux = vet[0];
+            vet[0] = vet[n-1];
+            vet[n-1] = aux;
+            n--;
         }
     }
+
 
     public void bolha() {
         boolean precisaOrdenar = true;
@@ -187,17 +170,22 @@ public class Vetor {
     }
 
     public void shellSort() {
-        int n = TL;
-
-        for (int intervalo = n / 2; intervalo > 0; intervalo /= 2) {
-            for (int i = intervalo; i < n; i += 1) {
-                int temp = vet[i];
-                int j;
-                for (j = i; j >= intervalo && vet[j - intervalo] > temp; j -= intervalo) {
-                    vet[j] = vet[j - intervalo];
+        int i, j, aux, dist = 1;
+        while (dist < TL) {
+            dist = 3 * dist + 1;
+        }
+        dist = dist / 3;
+        while (dist > 0) {
+            for (i = dist; i < TL; i++) {
+                aux = vet[i];
+                j = i;
+                while (j >= dist && vet[j - dist] > aux) {
+                    vet[j] = vet[j - dist];
+                    j = j - dist;
                 }
-                vet[j] = temp;
+                vet[j] = aux;
             }
+            dist = dist / 3;
         }
     }
 
@@ -236,34 +224,34 @@ public class Vetor {
         System.arraycopy(output, 0, vet, 0, n);
     }
 
-    public void bucketSort() {
-        int n = TL;
+    public void bucketSort(int quantBuckets) {
+        int tamanhoVet = TL;
         int maior = vet[0];
         int menor = vet[0];
 
         // Encontra o maior e o menor valor
-        for (int i = 1; i < n; i++) {
+        for (int i = 1; i < tamanhoVet; i++) {
             if (vet[i] > maior) maior = vet[i];
             if (vet[i] < menor) menor = vet[i];
         }
 
-        int intervalo = (maior - menor) / n + 1;
+        int intervalo = (maior - menor) / quantBuckets + 1;
 
         // Cria os buckets como um array de Listas
-        Lista[] buckets = new Lista[n];
-        for (int i = 0; i < n; i++) {
+        Lista[] buckets = new Lista[quantBuckets];
+        for (int i = 0; i < quantBuckets; i++) {
             buckets[i] = new Lista();
         }
 
         // Distribui os elementos pelos buckets
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < tamanhoVet; i++) {
             int index = (vet[i] - menor) / intervalo;
             buckets[index].inserirNoInicio(vet[i]);
         }
 
         // Ordena cada bucket e concatena de volta ao array original
         int index = 0;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < quantBuckets; i++) {
             buckets[i].insercaoDireta();
             No aux = buckets[i].getInicio();
             while (aux != null) {

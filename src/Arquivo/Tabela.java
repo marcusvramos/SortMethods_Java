@@ -126,6 +126,20 @@ public class Tabela {
         );
 
         // Shell Sort
+        realizarOrdenacaoEAdicionarNaTabela(
+            gravarArq,
+            "Shell Sort",
+            arqOrd,
+            arqRev,
+            arqRand,
+            Arquivo::shellSort,
+            this::noComp,
+            this::noComp,
+            this::noComp,
+            this::noMov,
+            this::noMov,
+            this::noMov
+        );
 
         // Heap Sort
         realizarOrdenacaoEAdicionarNaTabela(
@@ -168,6 +182,20 @@ public class Tabela {
         );
 
         // Bucket
+        realizarOrdenacaoEAdicionarNaTabela(
+            gravarArq,
+            "Bucket Sort",
+            arqOrd,
+            arqRev,
+            arqRand,
+            Arquivo::bucketSort,
+            this::noComp,
+            this::noComp,
+            this::noComp,
+            this::noMov,
+            this::noMov,
+            this::noMov
+        );
 
         // Radix
         realizarOrdenacaoEAdicionarNaTabela(

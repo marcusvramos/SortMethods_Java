@@ -203,25 +203,28 @@ public class Lista {
         }
     }
 
-    // aguardar metodo dado em sala de aula
     public void shellSort() {
-        int n = tamanho(inicio, null);
-        for (int intervalo = n / 2; intervalo > 0; intervalo /= 2) {
-            for (int i = intervalo; i < n; i++) {
-                No tempNo = getNodeAt(i);
-                int temp = tempNo.getInfo();
-
-                int j;
-                for (j = i; j >= intervalo && getNodeAt(j - intervalo).getInfo() > temp; j -= intervalo) {
-                    No prevNode = getNodeAt(j - intervalo);
-                    getNodeAt(j).setInfo(prevNode.getInfo());
+        int i, j;
+        int aux, dist = 1;
+        while(dist < tamanho(inicio, null)) {
+            dist = 3 * dist + 1;
+        }
+        dist = dist / 3;
+        while(dist > 0) {
+            for(i = dist; i < tamanho(inicio, null); i++) {
+                aux = getNodeAt(i).getInfo();
+                j = i;
+                while(j - dist >= 0 && getNodeAt(j - dist).getInfo() > aux) {
+                    getNodeAt(j).setInfo(getNodeAt(j - dist).getInfo());
+                    j = j - dist;
                 }
-                getNodeAt(j).setInfo(temp);
+                getNodeAt(j).setInfo(aux);
             }
+            dist = dist / 3;
         }
     }
 
-    public void heap(){
+    public void heapSort(){
         int tl2 = tamanho(inicio, null), pai, fe, fd, info;
         No PontFe, PontFd, PontMaiorF, PontPai, ini, fim;
         while (tl2 > 1){
@@ -290,7 +293,7 @@ public class Lista {
         }
     }
 
-    public void bucketSort() {
+    public void bucketSort(int quantidadeBuckets) {
         int maior = inicio.getInfo();
         int menor = inicio.getInfo();
         No temp = inicio.getProx();
@@ -300,30 +303,29 @@ public class Lista {
             temp = temp.getProx();
         }
 
-        int n = tamanho(inicio, null);
-        int intervalo = (maior - menor) / n + 1;
+        int intervalo = maior - menor + 1;
+        double intervaloPorBalde = (double) intervalo / quantidadeBuckets;
 
         // Criar e inicializar os baldes
-        Lista[] baldes = new Lista[n];
-        for (int i = 0; i < n; i++) {
+        Lista[] baldes = new Lista[quantidadeBuckets];
+        for (int i = 0; i < quantidadeBuckets; i++) {
             baldes[i] = new Lista();
         }
 
         // Distribuir os elementos pelos baldes
         temp = inicio;
         while (temp != null) {
-            int index = (temp.getInfo() - menor) / intervalo;
+            int index = (int)((temp.getInfo() - menor) / intervaloPorBalde);
+            index = Math.min(index, quantidadeBuckets - 1);
             baldes[index].inserirNoInicio(temp.getInfo());
             temp = temp.getProx();
         }
 
-        for (int i = 0; i < n; i++) {
-            baldes[i].insercaoDireta();
-        }
-
-        // Concatenar os baldes de volta na lista original
+        // Ordenar cada balde e concatená-los de volta na lista original
         inicializa();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < quantidadeBuckets; i++) {
+            baldes[i].insercaoDireta();
+
             temp = baldes[i].getInicio();
             while (temp != null) {
                 inserirNoFim(temp.getInfo());

@@ -34,6 +34,17 @@ public class Arquivo {
         { }
     }
 
+    public void deletarArquivo() {
+        try {
+            arquivo.close();
+            arquivo = null;
+            System.gc();
+            System.runFinalization();
+        } catch (IOException e) {
+            System.out.println("Erro ao deletar o arquivo!");
+        }
+    }
+
     public void arquivoOrdenado() {
         truncate(0);
 
@@ -326,9 +337,43 @@ public class Arquivo {
             inicio++;
         }
     }
-    
-    // Shell Sort
-    
+
+    public void shellSort() {
+        int i, j, dist = 1;
+        Registro regI = new Registro();
+        Registro regAux;
+        Registro regJ = new Registro();
+
+        while(dist < filesize()){
+            dist = 3 * dist + 1;
+        }
+        dist = dist / 3;
+        while(dist > 0) {
+            for (i = dist; i < filesize(); i++){
+                seekArq(i);
+                regI.leDoArq(arquivo);
+                regAux = regI;
+                j = i;
+
+                seekArq(j - dist);
+                regJ.leDoArq(arquivo);
+                comp++;
+                while(j >= dist && regAux.getCodigo() < regJ.getCodigo()) {
+                    mov++;
+                    seekArq(j);
+                    regJ.gravaNoArq(arquivo);
+                    j = j - dist;
+                    seekArq(j - dist);
+                    regJ.leDoArq(arquivo);
+                }
+                mov++;
+                seekArq(j);
+                regAux.gravaNoArq(arquivo);
+            }
+            dist = dist / 3;
+        }
+    }
+
     public void heapSort() {
         int TL2 = filesize(), pai, FE, FD, maiorF;
         Registro regP = new Registro();
@@ -429,9 +474,57 @@ public class Arquivo {
         arquivoAux.fechar();
     }
 
-    // bucket sort
+    public void bucketSort() {
+        int quantBuckets = 10; // nesse caso deixei fixo 10, mas poderia vir por parametro
 
-    // radix sort
+        int tamanho = filesize();
+        int maior = 0;
+        int menor = Integer.MAX_VALUE;
+
+        // Encontrar o maior e o menor valor
+        for (int i = 0; i < tamanho; i++) {
+            seekArq(i);
+            Registro reg = new Registro();
+            reg.leDoArq(arquivo);
+            if (reg.getCodigo() > maior) maior = reg.getCodigo();
+            if (reg.getCodigo() < menor) menor = reg.getCodigo();
+        }
+
+        int intervalo = (maior - menor) + 1;
+        double intervaloPorBucket = (double) intervalo / quantBuckets;
+
+        // Cria os buckets como um array de arquivos temporários
+        Arquivo[] buckets = new Arquivo[quantBuckets];
+        for (int i = 0; i < quantBuckets; i++) {
+            buckets[i] = new Arquivo("bucket" + i);
+        }
+
+        // Distribui os elementos pelos buckets
+        for (int i = 0; i < tamanho; i++) {
+            seekArq(i);
+            Registro reg = new Registro();
+            reg.leDoArq(arquivo);
+            int index = (int)((reg.getCodigo() - menor) / intervaloPorBucket);
+            if (index >= quantBuckets) {
+                index = quantBuckets - 1;
+            }
+            buckets[index].inserirRegNoFinal(reg.getCodigo());
+        }
+
+        // Ordena cada bucket e concatena de volta ao arquivo original
+        truncate(0); // Limpa o arquivo original para a nova escrita
+        for (int i = 0; i < quantBuckets; i++) {
+            buckets[i].insercaoDireta();
+            for (int j = 0; j < buckets[i].filesize(); j++) {
+                buckets[i].seekArq(j);
+                Registro reg = new Registro();
+                reg.leDoArq(buckets[i].arquivo);
+                reg.gravaNoArq(arquivo);
+            }
+            buckets[i].deletarArquivo();
+        }
+    }
+
     public void radixSort() {
         int maior = getMaiorValor();
         for(int i = 1; maior/i > 0; i*=10){
@@ -478,7 +571,6 @@ public class Arquivo {
         }
     }
 
-    // comb
     public void combSort() {
         int gap = (int) (filesize() / 1.3);
         int posAtual;
@@ -508,7 +600,6 @@ public class Arquivo {
         }
     }
 
-    // gnome
     public void gnomeSort() {
         int currentPos = 0;
         int n = filesize();
