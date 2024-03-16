@@ -451,32 +451,23 @@ public class Lista {
     }
 
     public void combSort() {
-        No PontI, PontJ;
-        int gap = tamanho(inicio, fim) , aux;
-        boolean trocou = true;
-        while(gap > 1 || trocou) {
-            gap = (int) (gap / 1.3);
-            if (gap < 1) {
-                gap = 1;
-            }
+        int n = tamanho(inicio, null);
+        int gap = (int) (n / 1.3);
+        int index;
 
-            trocou = false;
-            PontI = PontJ = inicio;
-
-            for (int i = 0; i < gap && PontJ.getProx() != null; i++) {
-                PontJ = PontJ.getProx();
-            }
-
-            while (PontJ != null) {
-                if (PontI.getInfo() > PontJ.getInfo()) {
-                    aux = PontI.getInfo();
-                    PontI.setInfo(PontJ.getInfo());
-                    PontJ.setInfo(aux);
-                    trocou = true;
+        while (gap > 0 ) {
+            index = 0;
+            while (index + gap < n) {
+                No i = getNodeAt(index);
+                No j = getNodeAt(index + gap);
+                if (i.getInfo() > j.getInfo()) {
+                    int temp = i.getInfo();
+                    i.setInfo(j.getInfo());
+                    j.setInfo(temp);
                 }
-                PontI = PontI.getProx();
-                PontJ = PontJ.getProx();
+                index++;
             }
+            gap = (int) (gap / 1.3);
         }
     }
 

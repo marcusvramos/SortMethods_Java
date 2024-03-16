@@ -355,13 +355,13 @@ public class Arquivo {
             for (i = dist; i < filesize(); i++){
                 seekArq(i);
                 regI.leDoArq(arquivo);
-                regAux = regI;
+                regAux = new Registro(regI.getCodigo());
                 j = i;
 
                 seekArq(j - dist);
                 regJ.leDoArq(arquivo);
                 comp++;
-                while(j >= dist && regAux.getCodigo() < regJ.getCodigo()) {
+                while(j - dist >= 0 && regAux.getCodigo() < regJ.getCodigo()) {
                     mov++;
                     seekArq(j);
                     regJ.gravaNoArq(arquivo);
@@ -490,7 +490,7 @@ public class Arquivo {
         Registro regP = new Registro();
         Registro regE = new Registro();
         Registro regD = new Registro();
-        Registro regMaiorF = new Registro();
+        Registro regMaiorF;
         Registro regIni = new Registro();
         Registro regFim = new Registro();
 
@@ -504,7 +504,7 @@ public class Arquivo {
                 regE.leDoArq(arquivo);
                 regD.leDoArq(arquivo);
                 maiorF = FE;
-                regMaiorF = regE;
+                regMaiorF = new Registro(regE.getCodigo());
                 if (FD < TL2 && regD.getCodigo() > regE.getCodigo()) {
                     regMaiorF = regD;
                     maiorF = FD;
