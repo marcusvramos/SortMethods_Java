@@ -1,8 +1,5 @@
-import Arquivo.Arquivo;
 import Lista.Lista;
-import Vetor.Vetor;
 
-import java.util.Random;
 import java.util.function.Consumer;
 
 public class TesteListas {
