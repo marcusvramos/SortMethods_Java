@@ -1,13 +1,18 @@
+import Arquivo.Arquivo;
 import Lista.Lista;
+import Vetor.Vetor;
 
+import java.util.Random;
 import java.util.function.Consumer;
 
 public class TesteListas {
 
     public static void testarOrdenacao(String nomeMetodo, Consumer<Lista> metodoOrdenacao) {
         Lista lista = new Lista();
-        int[] valores = {55, 17, 23, 12, 42};
-        for (int valor : valores) {
+
+        int[] values = {4, 2, 1, 11, 6, 12, 9, 7};
+
+        for (int valor : values) {
             lista.inserirNoInicio(valor);
         }
 
@@ -26,14 +31,14 @@ public class TesteListas {
         testarOrdenacao("Shake", Lista::shakeSort);
         testarOrdenacao("Shell", Lista::shellSort);
         testarOrdenacao("Heap", Lista::heapSort);
-
-        // testarOrdenacao("Quick", Lista::quickSort);
+        testarOrdenacao("Quick Sem Pivô", Lista::quickSortSemPivo);
+        testarOrdenacao("Quick Com Pivô", Lista::quickSortComPivo);
         //testarOrdenacao("Merge", Lista::mergeSort);
-
         testarOrdenacao("Counting", Lista::countingSort);
         testarOrdenacao("Bucket", lista -> lista.bucketSort(5));
         testarOrdenacao("Radix", Lista::radixSort);
         testarOrdenacao("CombSort", Lista::combSort);
         testarOrdenacao("GnomeSort", Lista::gnomeSort);
+        //testarOrdenacao("TimSort", Lista::timSort);
     }
 }

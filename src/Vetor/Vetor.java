@@ -3,7 +3,6 @@ package Vetor;
 import Lista.*;
 
 import java.util.Arrays;
-import java.util.Stack;
 
 public class Vetor {
     private int[] vet;
@@ -135,7 +134,6 @@ public class Vetor {
         }
     }
 
-
     public void bolha() {
         boolean precisaOrdenar = true;
         for (int i = 0; i < TL && precisaOrdenar; i++) {
@@ -186,6 +184,68 @@ public class Vetor {
                 vet[j] = aux;
             }
             dist = dist / 3;
+        }
+    }
+
+    public void quickSemPivo() {
+        quickSP(0, TL-1);
+    }
+
+    public void quickSP(int ini, int fim) {
+        int i = ini, j = fim, aux;
+        boolean flag = true;
+        while (i < j) {
+            if (flag) {
+                while(i < j && vet[i] <= vet[j]) {
+                    i++;
+                }
+            } else {
+                while(i < j && vet[i] <= vet[j]) {
+                    j--;
+                }
+            }
+
+            aux = vet[i];
+            vet[i] = vet[j];
+            vet[j] = aux;
+            flag = !flag;
+        }
+
+        if (ini < i-1) {
+            quickSP(ini, i-1);
+        }
+
+        if (j+1 < fim) {
+            quickSP(j+1, fim);
+        }
+    }
+
+    public void quickComPivo() {
+        quickCP(0, TL-1);
+    }
+
+    public void quickCP(int ini, int fim) {
+        int i = ini, j = fim, pivo = vet[(ini+fim)/2], aux;
+        while (i <= j) {
+            while (vet[i] < pivo) {
+                i++;
+            }
+            while (vet[j] > pivo) {
+                j--;
+            }
+            if (i <= j) {
+                aux = vet[i];
+                vet[i] = vet[j];
+                vet[j] = aux;
+                i++;
+                j--;
+            }
+        }
+        if (ini < j) {
+            quickCP(ini, j);
+        }
+        if (i < fim) {
+            quickCP(i, fim);
         }
     }
 

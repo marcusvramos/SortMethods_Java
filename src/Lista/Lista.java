@@ -224,6 +224,81 @@ public class Lista {
         }
     }
 
+    public void quickSortSemPivo() {
+        quickSortSP(inicio, fim);
+    }
+
+    private void quickSortSP(No ini, No end) {
+        if (ini.getAnt() == end || end.getProx() == ini)
+            return;
+
+        No i = ini, j = end;
+        int aux;
+        boolean flag = true;
+
+        while (i != j) {
+            if (flag) {
+                while (i != j && i.getInfo() <= j.getInfo() && i.getProx() != null) {
+                    i = i.getProx();
+                }
+            } else {
+                while (i != j && i.getInfo() <= j.getInfo() && j.getAnt() != null) {
+                    j = j.getAnt();
+                }
+            }
+
+            if (i != j) {
+                aux = i.getInfo();
+                i.setInfo(j.getInfo());
+                j.setInfo(aux);
+                flag = !flag;
+            }
+        }
+
+        if (ini != i && i.getAnt() != null) {
+            quickSortSP(ini, i.getAnt());
+        }
+
+        if (j.getProx() != end && j.getProx() != null) {
+            quickSortSP(j.getProx(), end);
+        }
+    }
+
+    public void quickSortComPivo() {
+        quickSortCP(0, tamanho(inicio, null) - 1);
+    }
+
+    public void quickSortCP(int ini, int fim){
+        int i = ini, j = fim, aux;
+        No pivo = getNodeAt((ini + fim) / 2);
+        No pi, pj;
+        while (i < j) {
+            pi = getNodeAt(i);
+            pj = getNodeAt(j);
+            while (i < j && pi.getInfo() < pivo.getInfo()) {
+                i++;
+                pi = pi.getProx();
+            }
+            while (i < j && pj.getInfo() > pivo.getInfo()) {
+                j--;
+                pj = pj.getAnt();
+            }
+            if (i <= j) {
+                aux = pi.getInfo();
+                pi.setInfo(pj.getInfo());
+                pj.setInfo(aux);
+                i++;
+                j--;
+            }
+        }
+        if (ini < j) {
+            quickSortCP(ini, j);
+        }
+        if (i < fim) {
+            quickSortCP(i, fim);
+        }
+    }
+
     public void heapSort(){
         int tl2 = tamanho(inicio, null), pai, fe, fd, info;
         No PontFe, PontFd, PontMaiorF, PontPai, ini, fim;

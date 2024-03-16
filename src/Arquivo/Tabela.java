@@ -45,7 +45,6 @@ public class Tabela {
         arqRev.arquivoReverso();
         arqRand.arquivoRandomico();
 
-        // Inserção Direta
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
             "Inserção Direta",
@@ -61,7 +60,6 @@ public class Tabela {
             this::calculaMovInsercaoDiretaRand
         );
 
-        // Inserção Binária
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
             "Inserção Binária",
@@ -77,7 +75,6 @@ public class Tabela {
             this::calculaMovInsercaoDiretaRand
         );
 
-        // Seleção Direta
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
             "Seleção Direta",
@@ -93,7 +90,6 @@ public class Tabela {
             this::calculaMovSelecaoDiretaRand
         );
 
-        // Bolha
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
             "Bolha",
@@ -109,7 +105,6 @@ public class Tabela {
             this::calculaMovBolhaRand
         );
 
-        // Shake Sort
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
             "Shake Sort",
@@ -125,7 +120,6 @@ public class Tabela {
             this::calculaMovBolhaRand
         );
 
-        // Shell Sort
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
             "Shell Sort",
@@ -141,7 +135,6 @@ public class Tabela {
             this::noMov
         );
 
-        // Heap Sort
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
             "Heap Sort",
@@ -157,15 +150,40 @@ public class Tabela {
             this::noMov
         );
 
-        // Quick com pivô
+        realizarOrdenacaoEAdicionarNaTabela(
+            gravarArq,
+            "Quick Sort com Pivô",
+            arqOrd,
+            arqRev,
+            arqRand,
+            Arquivo::quickComPivo,
+            this::noComp,
+            this::noComp,
+            this::noComp,
+            this::noMov,
+            this::noMov,
+            this::noMov
+        );
 
-        // Quick sem pivô
+        realizarOrdenacaoEAdicionarNaTabela(
+            gravarArq,
+            "Quick Sort sem Pivô",
+            arqOrd,
+            arqRev,
+            arqRand,
+            Arquivo::quickSemPivo,
+            this::noComp,
+            this::noComp,
+            this::noComp,
+            this::noMov,
+            this::noMov,
+            this::noMov
+        );
 
         // Merge implementação 01
 
         // Merge implementação 02
 
-        // Couting Sort
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
             "Counting Sort",
@@ -181,7 +199,6 @@ public class Tabela {
             this::noMov
         );
 
-        // Bucket
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
             "Bucket Sort",
@@ -197,7 +214,6 @@ public class Tabela {
             this::noMov
         );
 
-        // Radix
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
             "Radix Sort",
@@ -213,7 +229,6 @@ public class Tabela {
             this::noMov
         );
 
-        // Comb
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
             "Comb Sort",
@@ -229,7 +244,6 @@ public class Tabela {
             this::noMov
         );
 
-        // Gnome
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
             "Gnome Sort",
