@@ -26,6 +26,12 @@ public class Vetor {
         }
     }
 
+    public void inserir(int[] valor) {
+        for (int i = 0; i < valor.length; i++) {
+            vet[i] = valor[i];
+        }
+    }
+
     public void insercao_direta() {
         int aux, pos, i = 1;
         while (i < TL) {
@@ -249,6 +255,97 @@ public class Vetor {
         }
     }
 
+    public void mergeSort1Imp() {
+        int[] vet1 = new int[TL/2];
+        int[] vet2 = new int[TL/2];
+        int seq = 1;
+        while (seq < TL) {
+            particao(vet1, vet2);
+            fusao(vet1, vet2, seq);
+            seq = seq * 2;
+        }
+    }
+
+    public void particao(int[] vet1, int[] vet2) {
+        int tam = TL/2;
+        for (int i = 0; i < tam; i++) {
+            vet1[i] = vet[i];
+            vet2[i] = vet[i+tam];
+        }
+    }
+
+    public void fusao(int[] vet1, int[] vet2, int seq) {
+        int i = 0, j = 0, k = 0, seq_aux = seq;
+        while(k < TL) {
+            while (i < seq && j < seq) {
+                if (vet1[i] < vet2[j]) {
+                    vet[k] = vet1[i];
+                    i++;
+                    k++;
+                } else {
+                    vet[k] = vet2[j];
+                    j++;
+                    k++;
+                }
+            }
+            while (i < seq) {
+                vet[k] = vet1[i];
+                i++;
+                k++;
+            }
+            while (j < seq) {
+                vet[k] = vet2[j];
+                j++;
+                k++;
+            }
+            seq = seq + seq_aux;
+        }
+    }
+
+    public void mergeSort2Imp() {
+        int[] aux = new int[TL];
+        merge(0, TL-1, aux);
+    }
+
+    public void merge(int esq, int dir, int[] aux) {
+        int meio;
+        if (esq < dir) {
+            meio = (esq + dir) / 2;
+            merge(esq, meio, aux);
+            merge(meio+1, dir, aux);
+            fusao02(esq, meio, meio +1, dir, aux);
+        }
+    }
+
+    public void fusao02(int ini1, int fim1, int ini2, int fim2, int[] aux) {
+        System.out.println("ini1: " + ini1 + " fim1: " + fim1 + " ini2: " + ini2 + " fim2: " + fim2);
+        int i = ini1, j = ini2, k = 0;
+        while (i <= fim1 && j <= fim2) {
+            if (vet[i] < vet[j]) {
+                aux[k] = vet[i];
+                i++;
+                k++;
+            } else {
+                aux[k] = vet[j];
+                j++;
+                k++;
+            }
+        }
+        while (i <= fim1) {
+            aux[k] = vet[i];
+            i++;
+            k++;
+        }
+        while (j <= fim2) {
+            aux[k] = vet[j];
+            j++;
+            k++;
+        }
+        for (i = 0; i < k; i++) {
+            vet[i+ini1] = aux[i];
+        }
+    }
+
     public void coutingSort() {
         int n = TL;
 
@@ -350,7 +447,20 @@ public class Vetor {
     }
 
     public void timSort() {
-        Arrays.sort(vet);
+        int n = TL;
+        int RUN = 32;
+        for (int i = 0; i < n; i += RUN) {
+            insercao_direta();
+        }
+
+        for (int size = RUN; size < n; size = 2 * size) {
+            for (int left = 0; left < n; left += 2 * size) {
+                int mid = left + size - 1;
+                int right = Math.min((left + 2 * size - 1), (n - 1));
+                fusao02(left, mid, mid+1, right, new int[n]);
+            }
+        }
+
     }
 
     private void countingSortWithRadix(int n, int exp) {

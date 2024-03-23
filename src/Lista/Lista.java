@@ -1,5 +1,7 @@
 package Lista;
 
+import java.sql.SQLOutput;
+
 public class Lista {
     private No inicio;
     private No fim;
@@ -299,6 +301,114 @@ public class Lista {
         }
     }
 
+    public void mergePrimeiraImplementacao() {
+        int seq = 1;
+        while (seq < tamanho(inicio, null)) {
+            Lista lista01 = new Lista();
+            Lista lista02 = new Lista();
+            lista01.inicializa();
+            lista02.inicializa();
+            particaoPrimeiraImp(lista01, lista02);
+            fusaoPrimeiraImp(lista01, lista02, seq);
+            seq = seq * 2;
+        }
+    }
+
+
+    public void particaoPrimeiraImp(Lista lista01, Lista lista02) {
+        int tam = tamanho(inicio, null) / 2;
+        for (int i = 0; i < tam; i++) {
+            lista01.inserirNoFim(getNodeAt(i).getInfo());
+            lista02.inserirNoFim(getNodeAt(tam + i).getInfo());
+        }
+    }
+
+    public void fusaoPrimeiraImp(Lista lista01, Lista lista02, int seq) {
+        int i = 0, j = 0, k = 0, seq_aux = seq;
+        int TL = tamanho(inicio, null);
+        while(k < TL) {
+            while (i < seq && j < seq) {
+                if (lista01.getNodeAt(i).getInfo() < lista02.getNodeAt(j).getInfo()) {
+                    getNodeAt(k).setInfo(lista01.getNodeAt(i).getInfo());
+                    i++;
+                    k++;
+                } else {
+                    getNodeAt(k).setInfo(lista02.getNodeAt(j).getInfo());
+                    j++;
+                    k++;
+                }
+            }
+
+            while (i < seq) {
+                getNodeAt(k).setInfo(lista01.getNodeAt(i).getInfo());
+                i++;
+                k++;
+            }
+
+            while (j < seq) {
+                getNodeAt(k).setInfo(lista02.getNodeAt(j).getInfo());
+                j++;
+                k++;
+            }
+            seq = seq + seq_aux;
+        }
+    }
+
+    public void mergeSegundaImplementacao() {
+        Lista aux = new Lista();
+        aux.inicializa();
+        particaoSegundaImp(0, tamanho(inicio, null) - 1, aux);
+    }
+
+    public void particaoSegundaImp(int esq, int dir, Lista lista)  {
+        int meio;
+        if (esq < dir) {
+            meio = (esq + dir) / 2;
+            particaoSegundaImp(esq, meio, lista);
+            particaoSegundaImp(meio + 1, dir, lista);
+            fusaoSegundaImp(esq, meio, meio + 1, dir, lista);
+        }
+    }
+
+    public void fusaoSegundaImp(int ini1, int fim1, int ini2, int fim2, Lista lista) {
+        int i = ini1, j = ini2;
+        No p1 = getNodeAt(ini1), p2 = getNodeAt(ini2);
+
+        while (p1 != null && i <= fim1 && p2 != null && j <= fim2) {
+            if (p1.getInfo() < p2.getInfo()) {
+                lista.inserirNoFim(p1.getInfo());
+                p1 = p1.getProx();
+                i++;
+            } else {
+                lista.inserirNoFim(p2.getInfo());
+                p2 = p2.getProx();
+                j++;
+            }
+        }
+
+        while (p1 != null && i <= fim1) {
+            lista.inserirNoFim(p1.getInfo());
+            p1 = p1.getProx();
+            i++;
+        }
+
+        while (p2 != null && j <= fim2) {
+            lista.inserirNoFim(p2.getInfo());
+            p2 = p2.getProx();
+            j++;
+        }
+
+        No aux = lista.getInicio();
+        No original = getNodeAt(ini1);
+        while (aux != null && original != null && ini1 <= fim2) {
+            original.setInfo(aux.getInfo());
+            aux = aux.getProx();
+            original = original.getProx();
+            ini1++;
+        }
+    }
+
+
     public void heapSort(){
         int tl2 = tamanho(inicio, null), pai, fe, fd, info;
         No PontFe, PontFd, PontMaiorF, PontPai, ini, fim;
@@ -491,19 +601,19 @@ public class Lista {
     }
 
     public void timSort() {
-//        int n = tamanho(inicio, null);
-//        int RUN = 32;
-//        for (int i = 0; i < n; i += RUN) {
-//            insercaoDireta();
-//        }
-//
-//        for (int size = RUN; size < n; size = 2 * size) {
-//            for (int left = 0; left < n; left += 2 * size) {
-//                int mid = left + size - 1;
-//                int right = Math.min((left + 2 * size - 1), (n - 1));
-//                merge(inicio, left, mid, right);
-//            }
-//        }
+        int n = tamanho(inicio, null);
+        int RUN = 32;
+        for (int i = 0; i < n; i += RUN) {
+            insercaoDireta();
+        }
+
+        for (int size = RUN; size < n; size = 2 * size) {
+            for (int left = 0; left < n; left += 2 * size) {
+                int mid = left + size - 1;
+                int right = Math.min((left + 2 * size - 1), (n - 1));
+                fusaoSegundaImp(left, mid, mid + 1, right, new Lista());
+            }
+        }
     }
 
     private int getMaior() {

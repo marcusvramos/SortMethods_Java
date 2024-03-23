@@ -180,9 +180,35 @@ public class Tabela {
             this::noMov
         );
 
-        // Merge implementação 01
+        realizarOrdenacaoEAdicionarNaTabela(
+            gravarArq,
+            "Merge Sort 1ª Implementação",
+            arqOrd,
+            arqRev,
+            arqRand,
+            Arquivo::mergePrimeiraImplementacao,
+            this::noComp,
+            this::noComp,
+            this::noComp,
+            this::noMov,
+            this::noMov,
+            this::noMov
+        );
 
-        // Merge implementação 02
+        realizarOrdenacaoEAdicionarNaTabela(
+            gravarArq,
+            "Merge Sort 2ª Implementação",
+            arqOrd,
+            arqRev,
+            arqRand,
+            Arquivo::mergeSegundaImplementacao,
+            this::noComp,
+            this::noComp,
+            this::noComp,
+            this::noMov,
+            this::noMov,
+            this::noMov
+        );
 
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
@@ -259,7 +285,20 @@ public class Tabela {
             this::noMov
         );
 
-        // Tim
+        realizarOrdenacaoEAdicionarNaTabela(
+            gravarArq,
+            "Tim Sort",
+            arqOrd,
+            arqRev,
+            arqRand,
+            Arquivo::timSort,
+            this::noComp,
+            this::noComp,
+            this::noComp,
+            this::noMov,
+            this::noMov,
+            this::noMov
+        );
 
         arq.close();
         exibirTabelaFinal();

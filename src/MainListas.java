@@ -1,8 +1,9 @@
+import Arquivo.Arquivo;
 import Lista.Lista;
 
 import java.util.function.Consumer;
 
-public class TesteListas {
+public class MainListas {
 
     public static void testarOrdenacao(String nomeMetodo, Consumer<Lista> metodoOrdenacao) {
         Lista lista = new Lista();
@@ -30,12 +31,13 @@ public class TesteListas {
         testarOrdenacao("Heap", Lista::heapSort);
         testarOrdenacao("Quick Sem Pivô", Lista::quickSortSemPivo);
         testarOrdenacao("Quick Com Pivô", Lista::quickSortComPivo);
-        //testarOrdenacao("Merge", Lista::mergeSort);
+        testarOrdenacao("Merge- 1º Implementação", Lista::mergePrimeiraImplementacao);
+        testarOrdenacao("Merge- 2º Implementação", Lista::mergeSegundaImplementacao);
         testarOrdenacao("Counting", Lista::countingSort);
         testarOrdenacao("Bucket", lista -> lista.bucketSort(5));
         testarOrdenacao("Radix", Lista::radixSort);
         testarOrdenacao("CombSort", Lista::combSort);
         testarOrdenacao("GnomeSort", Lista::gnomeSort);
-        //testarOrdenacao("TimSort", Lista::timSort);
+        testarOrdenacao("TimSort", Lista::timSort);
     }
 }
