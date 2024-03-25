@@ -48,7 +48,7 @@ public class Arquivo {
     public void arquivoOrdenado() {
         truncate(0);
 
-        for (int i = 0; i < 512; i++) {
+        for (int i = 0; i < 1024; i++) {
             new Registro(i).gravaNoArq(arquivo);
         }
     }
@@ -56,14 +56,14 @@ public class Arquivo {
     public void arquivoReverso() {
         truncate(0);
 
-        for (int i = 512; i > 0; i--)
+        for (int i = 1024; i > 0; i--)
             new Registro(i).gravaNoArq(arquivo);
     }
 
     public void arquivoRandomico() {
         truncate(0);
-        for (int i = 0; i < 512; i++)
-            new Registro(new Random().nextInt(10100)).gravaNoArq(arquivo);
+        for (int i = 0; i < 1024; i++)
+            new Registro(new Random().nextInt(1024)).gravaNoArq(arquivo);
 
     }
 
