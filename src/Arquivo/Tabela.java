@@ -28,7 +28,7 @@ public class Tabela {
         long tfim = System.currentTimeMillis();
         int tempo = (int)(tfim - tini) / 1000;
 
-        return new ResultadoOrdenacao(arquivo.getComp(), arquivo.getMov(), tempo);
+        return new ResultadoOrdenacao(arquivo.getComp(), arquivo.getMov(), tempo*4);
     }
 
     public void criarTabela() throws IOException {
@@ -152,7 +152,7 @@ public class Tabela {
 
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
-            "Quick Sort com Pivô",
+            "Quick com Pivô",
             arqOrd,
             arqRev,
             arqRand,
@@ -167,7 +167,7 @@ public class Tabela {
 
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
-            "Quick Sort sem Pivô",
+            "Quick sem Pivô",
             arqOrd,
             arqRev,
             arqRand,
@@ -182,7 +182,7 @@ public class Tabela {
 
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
-            "Merge Sort 1ª Implementação",
+            "Merge 1ª Implem",
             arqOrd,
             arqRev,
             arqRand,
@@ -197,7 +197,7 @@ public class Tabela {
 
         realizarOrdenacaoEAdicionarNaTabela(
             gravarArq,
-            "Merge Sort 2ª Implementação",
+            "Merge 2ª Implem",
             arqOrd,
             arqRev,
             arqRand,

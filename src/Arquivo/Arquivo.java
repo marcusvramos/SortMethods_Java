@@ -171,6 +171,7 @@ public class Arquivo {
 
             seekArq(pos - 1);
             Registro regAnterior = new Registro();
+            mov++;
             regAnterior.leDoArq(arquivo);
 
             comp++;
@@ -182,6 +183,7 @@ public class Arquivo {
 
                 if (pos > 0) {
                     seekArq(pos - 1);
+                    mov++;
                     regAnterior.leDoArq(arquivo);
                 }
             }
@@ -196,7 +198,7 @@ public class Arquivo {
     public void insercaoBinaria() {
         int pos;
         Registro regI = new Registro();
-        Registro regAux = new Registro();
+        Registro regAux;
         Registro regAnt = new Registro();
         for (int i = 1; i < filesize(); i++) {
             seekArq(i);
@@ -259,7 +261,7 @@ public class Arquivo {
                 }
             }
             
-	    comp++;
+    	    comp++;
             if(posMenor != i) {
             	mov+=2;
                 seekArq(i);
@@ -284,8 +286,10 @@ public class Arquivo {
                 seekArq(i);
                 reg1.leDoArq(arquivo);
                 reg2.leDoArq(arquivo);
+                comp++;
                 if (reg1.getCodigo() > reg2.getCodigo()) {
                     seekArq(i);
+                    mov+=2;
                     reg2.gravaNoArq(arquivo);
                     reg1.gravaNoArq(arquivo);
                     troca = true;
