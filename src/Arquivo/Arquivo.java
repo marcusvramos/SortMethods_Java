@@ -888,11 +888,45 @@ public class Arquivo {
         }
     }
 
+    private void insercaoDiretaForTim(int ini, int fim) {
+        // eu poderia ter usado o insertionSort que já existe, mas preferi fazer um novo
+        for (int i = ini + 1; i <= fim; i++) {
+            seekArq(i);
+            Registro regI = new Registro();
+            regI.leDoArq(arquivo);
+            Registro regAuxiliar = new Registro(regI.getCodigo());
+            int pos = i;
+
+            seekArq(pos - 1);
+            Registro regAnterior = new Registro();
+            mov++;
+            regAnterior.leDoArq(arquivo);
+
+            comp++;
+            while (pos > ini && regAuxiliar.getCodigo() < regAnterior.getCodigo()) {
+                mov++;
+                seekArq(pos);
+                regAnterior.gravaNoArq(arquivo);
+                pos--;
+
+                if (pos > ini) {
+                    seekArq(pos - 1);
+                    mov++;
+                    regAnterior.leDoArq(arquivo);
+                }
+            }
+
+            mov++;
+            seekArq(pos);
+            regAuxiliar.gravaNoArq(arquivo);
+        }
+    }
+
     public void timSort() {
         int n = filesize();
         int RUN = 32;
         for (int i = 0; i < n; i += RUN) {
-            insercaoDireta();
+            insercaoDiretaForTim(i, Math.min((i + 31), (n - 1)));
         }
 
         for (int size = RUN; size < n; size = 2 * size) {

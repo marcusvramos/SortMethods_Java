@@ -600,11 +600,34 @@ public class Lista {
         }
     }
 
+    private void insertionSortForTim(No ini, No fim) {
+        // eu poderia ter usado o insertionSort que já existe, mas preferi fazer um novo
+        if (ini == null || fim == null) {
+            return;
+        }
+
+        No PonteiroIni = ini.getProx();
+        No PontPos, PontAux;
+
+        while (PonteiroIni != null && PonteiroIni != fim.getProx()) {
+            int aux = PonteiroIni.getInfo();
+            PontPos = PonteiroIni;
+
+            while (PontPos != ini && aux < PontPos.getAnt().getInfo()) {
+                PontPos.setInfo(PontPos.getAnt().getInfo());
+                PontPos = PontPos.getAnt();
+            }
+
+            PontPos.setInfo(aux);
+            PonteiroIni = PonteiroIni.getProx();
+        }
+    }
+
     public void timSort() {
         int n = tamanho(inicio, null);
         int RUN = 32;
         for (int i = 0; i < n; i += RUN) {
-            insercaoDireta();
+            insertionSortForTim(getNodeAt(i), getNodeAt(Math.min((i + 31), (n - 1))));
         }
 
         for (int size = RUN; size < n; size = 2 * size) {
