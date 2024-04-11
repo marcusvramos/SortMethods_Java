@@ -743,6 +743,7 @@ public class Arquivo {
             seekArq(i);
             Registro reg = new Registro();
             reg.leDoArq(arquivo);
+            comp+=2;
             if (reg.getCodigo() > maior) maior = reg.getCodigo();
             if (reg.getCodigo() < menor) menor = reg.getCodigo();
         }
@@ -766,6 +767,7 @@ public class Arquivo {
             if (index >= quantBuckets) {
                 index = quantBuckets - 1;
             }
+            mov++;
             buckets[index].inserirRegNoFinal(reg.getCodigo());
         }
 
@@ -777,6 +779,7 @@ public class Arquivo {
                 buckets[i].seekArq(j);
                 Registro reg = new Registro();
                 reg.leDoArq(buckets[i].arquivo);
+                mov++;
                 inserirRegNoFinal(reg.getCodigo());
             }
             buckets[i].deletarArquivo();
