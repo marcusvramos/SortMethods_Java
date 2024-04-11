@@ -171,7 +171,6 @@ public class Arquivo {
 
             seekArq(pos - 1);
             Registro regAnterior = new Registro();
-            mov++;
             regAnterior.leDoArq(arquivo);
 
             comp++;

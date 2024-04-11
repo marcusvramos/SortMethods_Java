@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class Registro {
-    public final int tf = 1022;
+    public final int tf = 1;
     private int codigo; // 4 bytes
     private char lixo[] = new char[tf]; //2044 bytes
 
@@ -48,7 +48,7 @@ public class Registro {
     }
     static int length()
     {
-        return(2048);
+        return(6);
     }
 
     public void exibirRegistro(){
