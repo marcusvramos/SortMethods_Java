@@ -774,6 +774,8 @@ public class Arquivo {
         truncate(0); // Limpar o arquivo original
         for (int i = 0; i < quantBuckets; i++) {
             buckets[i].insercaoDireta();
+            mov += buckets[i].getMov();
+            comp += buckets[i].getComp();
             for (int j = 0; j < buckets[i].filesize(); j++) {
                 buckets[i].seekArq(j);
                 Registro reg = new Registro();
